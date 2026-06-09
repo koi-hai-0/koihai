@@ -918,13 +918,11 @@
       'entry.795813381': alt,
     });
 
-    // Submit silently via fetch (no redirect)
-    fetch(`${GOOGLE_FORM_ACTION}?${params.toString()}`, {
-      method: 'POST',
-      mode: 'no-cors',
-    }).catch(() => {}); // no-cors always "fails" in fetch, that's expected
+    // Open prefilled Google Form in new tab
+    const viewUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfZ1wRHBuPJx0rcVOS8K0pnmZJsyYuBtDK7o78fbt1BCNpwcA/viewform?' + params.toString();
+    window.open(viewUrl, '_blank');
 
-    // Show success regardless (Google Form accepts it silently)
+    // Show success screen
     document.getElementById('formWrapper').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   }
