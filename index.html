@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koi Hai — Someone who listens.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EFE6;
+    --light-bg: #FAF7F3;
+    --brown-dark: #2A1A0E;
+    --brown-mid: #3D2010;
+    --brown-card: #3A1F0D;
+    --brown-card2: #2E1608;
+    --terracotta: #C4714A;
+    --terracotta-light: #D4856A;
+    --gold: #C8A97A;
+    --text-light: rgba(245, 239, 230, 0.85);
+    --text-muted: rgba(245, 239, 230, 0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--light-bg);
+    color: var(--brown-dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 28px;
+    background: rgba(250, 247, 243, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(200, 169, 122, 0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--brown-dark);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--terracotta); font-style: italic; }
+
+  .nav-cta {
+    border: 1.5px solid var(--brown-dark);
+    color: var(--brown-dark);
+    padding: 9px 22px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 400;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--brown-dark);
+    color: var(--cream);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--light-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 28px 80px;
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(42, 26, 14, 0.2);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.1s forwards;
+  }
+
+  .hero-pill::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    display: inline-block;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.4rem, 12vw, 6.5rem);
+    font-weight: 400;
+    line-height: 1.0;
+    color: var(--brown-dark);
+    margin-bottom: 0;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title .italic { 
+    font-style: italic; 
+    color: var(--terracotta); 
+  }
+
+  .hero-title .dash {
+    display: block;
+    font-size: clamp(2.8rem, 10vw, 5.5rem);
+  }
+
+  .hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--terracotta);
+    margin: 32px auto;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.35s forwards;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    color: #7A6A5A;
+    line-height: 1.8;
+    max-width: 340px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.45s forwards;
+  }
+
+  .scroll-hint {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B0A090;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--terracotta), transparent);
+  }
+
+  .hero-book-btn {
+    display: inline-block;
+    background: var(--brown-dark);
+    color: var(--cream);
+    padding: 18px 48px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-top: 40px;
+    font-weight: 400;
+    transition: background 0.3s;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.55s forwards;
+  }
+
+  .hero-book-btn:hover { background: var(--terracotta); }
+
+  /* DARK SECTIONS */
+  .dark-section {
+    background: var(--brown-dark);
+    padding: 80px 28px;
+    color: var(--text-light);
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 40px;
+  }
+
+  .section-title em { 
+    font-style: italic;
+    color: var(--terracotta-light);
+  }
+
+  /* HOW IT WORKS */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .step-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 32px 28px;
+    transition: background 0.3s;
+  }
+
+  .step-card:hover {
+    background: rgba(255,255,255,0.09);
+  }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: rgba(200, 169, 122, 0.3);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .step-card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .step-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* PRICING */
+  .pricing-section {
+    background: var(--brown-mid);
+    padding: 80px 28px;
+  }
+
+  .pricing-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .price-card {
+    background: var(--brown-card);
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.3s;
+  }
+
+  .price-card:hover { transform: translateY(-3px); }
+
+  .price-card.popular {
+    border-color: var(--terracotta);
+    border-width: 1.5px;
+  }
+
+  .popular-badge {
+    display: inline-block;
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .price-plan-name {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .price-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .price-duration {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 24px;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .price-features li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    color: var(--terracotta-light);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .price-btn {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: 400;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: var(--cream);
+    cursor: pointer;
+    background: transparent;
+    width: 100%;
+  }
+
+  .price-btn:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+  }
+
+  .price-card.popular .price-btn {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: white;
+  }
+
+  .price-card.popular .price-btn:hover {
+    background: var(--terracotta-light);
+    border-color: var(--terracotta-light);
+  }
+
+  /* TRUST */
+  .trust-section {
+    background: var(--light-bg);
+    padding: 80px 28px;
+  }
+
+  .trust-section .section-label { color: var(--terracotta); }
+  .trust-section .section-title { color: var(--brown-dark); }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .trust-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 22px;
+    border: 1px solid rgba(42,26,14,0.08);
+  }
+
+  .trust-icon { font-size: 1.5rem; margin-bottom: 14px; display: block; }
+
+  .trust-card h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
+  }
+
+  .trust-card p {
+    font-size: 0.8rem;
+    color: #8A7A6A;
+    line-height: 1.6;
+  }
+
+  /* BOOKING / FORM */
+  .booking-section {
+    background: var(--brown-dark);
+    padding: 80px 28px;
+  }
+
+  .booking-section .section-title { text-align: center; }
+  .booking-section .section-label { text-align: center; }
+
+  .booking-intro {
+    text-align: center;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 48px;
+  }
+
+  /* INLINE FORM (mimics Google Form style) */
+  .booking-form {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 36px 28px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .form-label .optional {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: none;
+    margin-left: 4px;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: rgba(245,239,230,0.3);
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--terracotta);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4714A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    padding-right: 44px;
+    cursor: pointer;
+  }
+
+  .form-select option {
+    background: var(--brown-dark);
+    color: var(--cream);
+  }
+
+  .form-textarea {
+    resize: none;
+    height: 110px;
+    line-height: 1.6;
+  }
+
+  .form-submit {
+    width: 100%;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .form-submit:hover {
+    background: var(--terracotta-light);
+    transform: translateY(-2px);
+  }
+
+  .form-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* SUCCESS STATE */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  .form-success .success-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+  .form-success h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .form-success p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--brown-card2);
+    padding: 40px 28px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-logo span { color: var(--terracotta); font-style: italic; }
+
+  footer p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 6px;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    nav { padding: 14px 20px; }
+    .dark-section, .pricing-section, .trust-section, .booking-section { padding: 64px 20px; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .booking-form { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Koi <span>Hai</span></a>
+  <a href="https://forms.gle/LGnJwbJ1hhs78rtd9" target="_blank" class="nav-cta">Book a session</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pill">Private &nbsp;·&nbsp; Judgment-free &nbsp;·&nbsp; Online</div>
+  <h1 class="hero-title">
+    Koi <span class="italic">Hai</span>
+    <span class="dash">— someone<br>who listens.</span>
+  </h1>
+  <div class="hero-divider"></div>
+  <p class="hero-sub">No advice. No opinions.<br>Just a warm, private space to say<br>everything you've been holding inside.</p>
+  
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="dark-section" id="how">
+  <div class="reveal">
+    <span class="section-label">How it works</span>
+    <h2 class="section-title">Simple, safe, and <em>entirely yours</em></h2>
+  </div>
+  <div class="steps-list">
+    <div class="step-card reveal">
+      <div class="step-num">01</div>
+      <h3>Fill the form</h3>
+      <p>Share your name, pick a session, and tell me a convenient time. Takes 2 minutes.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">02</div>
+      <h3>Make payment</h3>
+      <p>I'll confirm your slot and send a secure payment link. Pay only after confirmation.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">03</div>
+      <h3>We talk</h3>
+      <p>On WhatsApp or a call — fully private. You speak, I listen. No recordings, ever.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">04</div>
+      <h3>Feel lighter</h3>
+      <p>Sometimes saying it out loud to someone is all you need.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <span class="section-label reveal">Sessions &amp; Pricing</span>
+  <h2 class="section-title reveal">Choose what feels right</h2>
+
+  <div class="pricing-cards">
+
+    <div class="price-card reveal">
+      <span class="price-plan-name">Quick Share</span>
+      <div class="price-amount">₹249</div>
+      <span class="price-duration">15 minutes</span>
+      <ul class="price-features">
+        <li>Private voice / text session</li>
+        <li>One-on-one attention</li>
+        <li>No judgment, no advice</li>
+      </ul>
+      <a href="#book" class="price-btn">Book this</a>
+    </div>
+
+    <div class="price-card popular reveal">
+      <span class="popular-badge">Most popular</span>
+      <span class="price-plan-name">Deep Talk</span>
+      <div class="price-amount">₹449</div>
+      <span class="price-duration">30 minutes</span>
+      <ul class="price-features">
+        <li>Private voice / text session</li>
+        <li>Full presence, no rush</li>
+        <li>No judgment, no advice</li>
+        <li>Follow-up check-in message</li>
+      </ul>
+      <a href="#book" class="price-btn">Book this</a>
+    </div>
+
+    <div class="price-card reveal">
+      <span class="price-plan-name">Extended Care</span>
+      <div class="price-amount">₹649</div>
+      <span class="price-duration">45 minutes</span>
+      <ul class="price-features">
+        <li>Private voice / text session</li>
+        <li>Unhurried, spacious conversation</li>
+        <li>No judgment, no advice</li>
+        <li>Follow-up check-in message</li>
+        <li>Priority scheduling</li>
+      </ul>
+      <a href="#book" class="price-btn">Book this</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section" id="trust">
+  <span class="section-label reveal">Why trust us</span>
+  <h2 class="section-title reveal">Your privacy is not<br>a feature. It's a <em>promise.</em></h2>
+  <div class="trust-grid">
+    <div class="trust-card reveal">
+      <span class="trust-icon">🔒</span>
+      <h4>No recordings</h4>
+      <p>Sessions are never recorded. What you say stays in the moment.</p>
+    </div>
+    <div class="trust-card reveal">
+      <span class="trust-icon">🫧</span>
+      <h4>No judgment</h4>
+      <p>We're not here to evaluate you. Just to listen without an agenda.</p>
+    </div>
+    <div class="trust-card reveal">
+      <span class="trust-icon">🙅</span>
+      <h4>Not therapy</h4>
+      <p>We're listeners, not therapists. Honest about what we are and aren't.</p>
+    </div>
+    <div class="trust-card reveal">
+      <span class="trust-icon">📵</span>
+      <h4>No pressure</h4>
+      <p>One session is fine. You don't owe us anything after it ends.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING SECTION -->
+<section class="booking-section" id="book">
+  <p class="booking-intro reveal">Fill a short form and I'll reach out within a few hours to confirm your slot. Everything you share is completely private.</p>
+  <div style="text-align:center;" class="reveal">
+    <a href="https://forms.gle/LGnJwbJ1hhs78rtd9" target="_blank" class="hero-book-btn" style="display:inline-block; margin-top:0;">
+      👂 Book a session
+    </a>
+    <p class="booking-intro" style="margin-top:16px; font-size:0.78rem;">🔒 Your information is never shared with anyone.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Koi <span>Hai</span></span>
+  <p>Someone who just listens. No advice. No judgment. Just presence.</p>
+  <p><a href="https://instagram.com/koihai_in" target="_blank">@koihai_in</a></p>
+  <br>
+  <p style="font-size:0.7rem; opacity:0.35;">© 2026 Koi Hai &nbsp;·&nbsp; All sessions are private and confidential &nbsp;·&nbsp; This is a listening service, not therapy.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => obs.observe(el));
+
+  // Pricing card buttons scroll to book
+  document.querySelectorAll('a[href="#book"]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
